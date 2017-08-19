@@ -59,7 +59,7 @@ MAXPRO - Maximize your profit not by competition but by cooporation
 
 	$ npm install
 
-**Step 4 edit `config/mongo.js` by setting database and database_conn to your **values
+**Step 4 edit `config/mongo.js` by setting database and database_conn to your values**
 
 **Step 5 run the app**
 

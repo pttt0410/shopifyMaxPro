@@ -41,25 +41,25 @@ MAXPRO - Maximize your profit not by competition but by cooporation
  - a working database connection MongoDB
  - nodejs, npm, git
 
-Step 1 Install `source` which will also include the web app
+**Step 1 Install `source` which will also include the web app**
 
 	$ git clone https://github.com/kimvu3010/MaxPro.git
 
-Step 2 cd into the web app directory
+**Step 2 cd into the web app directory**
 
 	$ cd <SavePath>/MaxPro-master
 
-Step 3 install dependencies
+**Step 3 install dependencies**
 
 	$ npm install
 
-Step 4 edit `config/mongo.js` by setting database and database_conn to your values
+**Step 4 edit `config/mongo.js` by setting database and database_conn to your **values
 
-Step 5 run the app
+**Step 5 run the app**
 
 	node app.js
 
-If you see something like this
+*If you see something like this*
 
 	$ Server is running on port 3000.
 

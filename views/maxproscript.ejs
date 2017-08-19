@@ -1,0 +1,46 @@
+(function() {
+    var adList = <%-JSON.stringify(adList)%>;
+    var MPdiv = document.createElement('div');
+    MPdiv.setAttribute('id','MP-div');
+    MPdiv.setAttribute('style', 'padding-top:60px;');
+
+var hide_btn = document.createElement('button');
+hide_btn.setAttribute('id','hide-btn');
+var t = document.createTextNode('Hide');
+hide_btn.appendChild(t);
+hide_btn.onclick = function(){
+    var x = document.getElementById("MPiframe");
+    if (x.style.display === "none") { 
+        x.style.display = "block"; 
+        hide_btn.innerHTML = 'Hide';
+    } else {
+        x.style.display = "none"; 
+        hide_btn.innerHTML = 'Show';
+    }
+};
+
+var content = '';
+adList.forEach(function(item){
+    content += '<div style="float:left; display: block-inline ;width:20%; margin-right: 5px; margin-left:0; padding-top:50px; text-align:center; background:#FFF; height: 200px;">';
+    content +='<a href="'+item.url+'" target="_blank">';
+    content +='<img src="'+item.img+'" style="height: 150px; width = 18%;">';
+    content +='<span style="font-size: 16px; color: #333; display: block;">'+'Price: '+item.title+'</span>';
+    content +='<span style="font-size: 12px; color: #333; display: block;">'+'Price: '+item.price+'</span>';
+    content +='</a>'
+    content +='</div>'
+});
+var MPiframe = document.createElement('iframe');
+MPiframe.setAttribute('id','MPiframe');
+MPiframe.srcdoc = content;
+MPiframe.style.height = '200px';
+MPiframe.style.width = '100%';
+
+MPdiv.appendChild(MPiframe); 
+MPdiv.appendChild(hide_btn);
+
+var main = document.getElementsByClassName('main-content')[0];
+main.parentNode.insertBefore(MPdiv, main.nextSibling);
+if(adList.length == 0){
+    hide_btn.click();
+}
+})();

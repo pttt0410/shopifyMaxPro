@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include layout.ejs %>
+	<script type="text/javascript">
+		// ShopifyApp.ready(function(){
+		// 	ShopifyApp.Bar.initialize({
+		// 		icon: 'assets/main-icon.png',
+		// 		title: 'Set Ads'
+		// 	});
+		// });
+
+
+		function select_partner(){
+			var shopList = <%-JSON.stringify(shopList)%>;
+			shopList.forEach(function(element,index){
+				var opt = $('<option>');
+				opt.attr("value",element.name);
+				opt.text(element.name);
+				$('#'+element.industry).append(opt);
+				// $('.partner-selector').show();
+			});
+
+		};
+
+
+		var product_selected = [];
+		var partner_selected;
+		function onloadFunc(){
+			setTimeout($('.partner-selector').show(), 3000) 
+			socket_handler();
+			select_partner();
+			$('.partner-selector').chosen({
+				width:'50%',
+			});
+			select_product();
+			$('#set-btn').attr("class","active");
+			
+			$('#product-table input:checkbox').change(function(){
+				if ($(this).is(':checked')){
+					product_selected.push($(this).attr('id'));
+				} else{
+					var i=product_selected.indexOf($(this).attr('id'));
+					product_selected.splice(i,1);
+				}
+			});
+		};
+
+		function finish(){
+			partner_selected = $('.partner-selector').val();
+			$.ajax({
+				url:'set_ads',
+				method:'post',
+				data: {partnerList: partner_selected, productList: product_selected},
+				success: function(res){
+					$('#snackbar').text(res.toString());
+					$('#snackbar').addClass('show');
+					setTimeout(function(){ 
+						$('#snackbar').removeClass('show'); 
+					}, 3000);
+				},
+				error: function(err){
+					$('#snackbar').text("ERROR: "+ err.responseText);
+					$('#snackbar').addClass('show');
+					setTimeout(function(){ 
+						$('#snackbar').removeClass('show'); 
+					}, 3000);
+				}
+			});
+		};
+
+		function select_product(){
+			var productList = <%-JSON.stringify(productList)%>;
+			console.log(productList);
+			productList.forEach(function(element, i){
+				// console.log(productList.length);
+				console.log(i%3);
+
+				if (i%3 === 0)
+				{
+					content = '';
+					content += '<div class="row">';
+					content += '<div class="col-xs-4 single-item">';
+					content += '<img class="thumbnail-img" src="'+element.image.src+'"/>';
+					content += '<span>'+ element.title +'</span>';
+					content += '<span>Price: '+ element.variants[0].price +'</span>';
+					content += '<input id="'+ element.id + '" type="checkbox"/>';
+					content += '</div>';
+
+				} else if (i%3 == 1)
+				{
+					content += '<div class="col-xs-4 single-item">';
+					content += '<img class="thumbnail-img" src="'+element.image.src+'"/>';
+					content += '<span>'+ element.title +'</span>';
+					content += '<span>Price: '+ element.variants[0].price +'</span>';
+					content += '<input id="'+element.id +'" type="checkbox"/>';
+					content += '</div>';
+
+				} else if (i%3 == 2)
+				{
+					content += '<div class="col-xs-4 single-item">';
+					content += '<img class="thumbnail-img" src="'+element.image.src+'"/>';
+					content += '<span>'+ element.title +'</span>';
+					content += '<span>Price: '+ element.variants[0].price +'</span>';
+					content += '<input id="'+element.id +'" type="checkbox"/>';
+					content += '</div>';
+					content += '</div>';
+					$('#product-table').append(content);						
+				}
+				if((i == (productList.length - 1))  && (i%3 != 2) ){
+					content+= '</div>';
+					$('#product-table').append(content);	
+				}
+			});
+		}
+
+		$(document).ready(onloadFunc);
+	</script>
+</head>
+
+<body>
+	<% include menu.ejs %>
+
+	<div class="tab-content">
+
+		<select class="partner-selector" data-placeholder="Select your partner" multiple="" style="display: none;">
+			<optgroup id="health_and_beauty" label="Health and Beauty">
+			</optgroup>
+			<optgroup id="electronics_and_gadgets" label="Electronics and Gadgets">
+			</optgroup>
+			<optgroup id="pets" label="Pets">
+			</optgroup>
+			<optgroup id="books_and_magazines" label="Books and Magazines"></optgroup>
+			<optgroup id="gifts_and_collectibles" label="Gifts and Collectibles"></optgroup>
+			<optgroup id="home_and_furniture" label="Home and Furniture"></optgroup>
+			<optgroup id="services" label="Services"></optgroup>
+			<optgroup id="automotive" label="Automotive"></optgroup>
+			<optgroup id="food_and_drink" label="Food and Drink"></optgroup>
+			<optgroup id="sports_and_recreation" label="Sports and Recreation"></optgroup>
+			<optgroup id="stationery_and_office_supplies" label="Stationery and Office Supplies"></optgroup>
+			<optgroup id="fashion_and_apparel" label="Fashion and Apparel"></optgroup>
+			<optgroup id="adult" label="Adult"></optgroup>
+			<optgroup id="construction_and_industrial" label="Construction and Industrial"></optgroup>
+			<optgroup id="toys_and_games" label="Toys and Games"></optgroup>
+			<optgroup id="jewelry" label="Jewelry"></optgroup>
+			<optgroup id="music" label="Music"></optgroup>
+			<optgroup id="crafts_and_hobbies" label="Crafts and Hobbies"></optgroup>
+			<optgroup id="art_and_photography" label="Art and Photography"></optgroup>
+		</select>
+
+		<br><br>
+		<div id="product-table">
+
+
+
+		</div>
+		<button class="text-btn w3-block" onclick="finish()" style="text-align: center;">Finish</button>
+	</div>
+
+
+</body>
+
+</html>

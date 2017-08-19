@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include layout.ejs %>
+	<script type="text/javascript">
+		// ShopifyApp.ready(function(){
+		// 	ShopifyApp.Bar.initialize({
+		// 		icon: 'assets/main-icon.png',
+		// 		title: "Dashboard"
+		// 	});
+
+		// });
+		var del_selected=[];
+		$(document).ready(function(){
+			$('#home-btn').attr("class","active");
+			$('input:checkbox').change(function(){
+				if ($(this).is(':checked')){
+					del_selected.push($(this).attr('id'));
+				} else{
+					var i=del_selected.indexOf($(this).attr('id'));
+					del_selected.splice(i,1);
+				}
+			});
+			socket_handler();
+		});
+
+		function deleteTranc(){
+			$.ajax({
+				url: "/home",
+				type: "delete",
+				data: {del_list: del_selected},
+				success: function(response){
+					setTimeout(function(){ 
+						location.reload();
+					}, 1000);
+
+					
+				},
+				error: function(){
+					$('#snackbar').text("Can not delete transaction!");
+					$('#snackbar').addClass('show');
+					setTimeout(function(){ 
+						$('#snackbar').removeClass('show'); 
+					}, 3000);
+
+				}
+			})
+		};
+	</script>
+
+</head>
+
+<body>
+	<% include menu.ejs %>
+
+	<div class="tab-content">
+		<h3>Sent Transaction</h3>
+		<table>
+			<tr>
+				<th>Partner</th>
+				<th>Status</th>
+				<th>Request time</th>
+				<th>Answer time</th>
+				<th>Select</th>
+			</tr>
+			<% table1.forEach(function(element){%>
+			<tr>
+				<td><%= element.partner %></td>
+				<td><%= element.status %></td>
+				<td><%= element.pending %></td>
+				<td><%= element.success %></td>
+				<td><input id="<%=element._id%>" type="checkbox" name="deleteList"></td>
+			</tr>
+			<%});%>
+		</table>
+<br><br>
+		<h3>Received Transaction</h3>
+		<table>
+			<tr>
+				<th>Partner</th>
+				<th>Status</th>
+				<th>Request time</th>
+				<th>Answer time</th>
+				<th>Select</th>
+			</tr>
+			<% table2.forEach(function(element){%>
+			<tr>
+				<td><%= element.name %></td>
+				<td><%= element.status %></td>
+				<td><%= element.pending %></td>
+				<td><%= element.success %></td>
+				<td><input id="<%=element._id%>" type="checkbox" name="deleteList"></td>
+			</tr>
+			<%});%>
+		</table>
+		<button class="text-btn" onclick="deleteTranc()">DELETE</button>
+		
+	</div>
+</body>
+
+</html>

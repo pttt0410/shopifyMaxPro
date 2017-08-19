@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include layout.ejs %>
+	<script type="text/javascript">
+		// ShopifyApp.ready(function(){
+		// 	ShopifyApp.Bar.initialize({
+		// 		icon: 'assets/main-icon.png',
+		// 		title: "Get Ads"
+		// 	});
+		// });
+
+		$(document).ready(function(){
+			$('#get-btn').attr("class","active");
+			socket_handler();
+			load_pendingList();
+		});
+
+		function load_detail(id){
+			$.ajax({
+				url: '/get_ads/'+id,
+				method:'GET',
+				success: function(response){
+					content="";
+					content+="<table>";
+					content+="<tr>";
+					content+="<th>Image</th>";
+					content+="<th>Title</th>";
+					content+="</tr>";
+
+					response.forEach(function(element,index){
+						content+="<tr>";
+						content += "<td><img class='thumbnail-img' src='" + element.img + "'/></td>";
+						content+="<td>"+element.title+"</td>";
+						content+="</tr>";
+
+					});
+					content+="</table>";
+						// $('.modal-header').empty();
+						$('.modal-title').text('Transaction #'+id);
+						$('.modal-body').empty();
+						$('.modal-body').append(content);
+						$('#myModal').modal('show');
+					},
+					error: function(error){
+						$('#snackbar').text("Can not load detail!");
+						$('#snackbar').addClass('show');
+						setTimeout(function(){ 
+							$('#snackbar').removeClass('show'); 
+						}, 3000);
+					}
+				});
+		};	
+
+		function load_response(res,id){
+			$.ajax({
+				url:'/get_ads',
+				method:'POST',
+				data:{response:res, id: id},
+				success: function(response){
+					location.reload();
+				},
+				error: function(){
+					$('#snackbar').text("Can not send your response to server!");
+					$('#snackbar').addClass('show');
+					setTimeout(function(){ 
+						$('#snackbar').removeClass('show'); 
+					}, 3000);
+				}
+			});
+		};
+
+		function load_pendingList(){
+			var pendingList = <%-JSON.stringify(pendingList)%>;
+			console.log(pendingList);
+			pendingList.forEach(function(element, index){
+				var content = '';
+				content+='<div class="list-single-item" id="'+ element._id +'">';
+				content+='<div class="talkbubble"><b>'+ element.name + '</b>' + '<span> wants to invite you to promote their products</span></div>';
+				content+='<div class="btn-group"><button class="detail-btn" onclick=load_detail("'+ element._id +'")>Detail</button>';
+				content+='<button class="allow-btn" onclick=load_response("allowed","'+ element._id +'")>Allow</button>';
+				content+='<button class="deny-btn" onclick=load_response("denied","'+ element._id +'")>Deny</button></div>';
+				content+='</div>'
+				$('#pendingList').append(content);
+			});
+		};
+
+	</script>
+
+</head>
+
+<body>
+	<% include menu.ejs %>
+	<div class="tab-content">
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Modal Header</h4>
+					</div>
+					<div class="modal-body">
+						<!-- <p>Some text in the modal.</p> -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div  id='pendingList'>
+
+		</div>
+
+	</div>
+
+<!-- 	<script type="text/javascript">
+		$('.detail-btn').on('click',function(){
+			var id = $(this).closest('div').attr('id');
+			load_detail(id);
+		});
+		$('.allow-btn').on('click',function(){
+			var id = $(this).closest('div').attr('id');
+			load_response('allowed',id);
+		});
+		$('.deny-btn').on('click',function(){
+			var id = $(this).closest('div').attr('id');
+			load_response('denied',id);
+		});
+	</script>
+-->
+</body>
+
+</html>

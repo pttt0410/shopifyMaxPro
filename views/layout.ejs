@@ -1,0 +1,50 @@
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
+<link rel="stylesheet" type="text/css" href="/css/appStyle.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+<!-- <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+
+
+<!-- <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+<script type='text/javascript'>
+	ShopifyApp.init({
+		apiKey: '<%= //YOUR_APP_API_KEY %>',
+		shopOrigin: 'https://<%= //CURRENT_LOGGED_IN_SHOP %>',
+		// forceRedirect: true
+
+	});
+</script>
+-->
+
+<script type="text/javascript">
+	var socket = io.connect('http://localhost:3000',{query: 'name=<%= name %>'});
+	function socket_handler(){
+		socket.on('connect', function(){
+		});
+		socket.on('update',function(data){
+			$('#snackbar').text(data);
+			$('#snackbar').addClass('show');
+			setTimeout(function(){ 
+				$('#snackbar').removeClass('show'); 
+			}, 3000);
+			
+		});
+	};
+	function logout(){
+		$.ajax({
+			url: '/logout',
+			method:'GET',
+			success: function(response){
+				window.location.replace('https://<%= name %>.myshopify.com/admin/apps')
+			},
+			error:function(){
+				alert('Error! Please close tab to log out.');
+			}
+		});
+	}
+
+</script>

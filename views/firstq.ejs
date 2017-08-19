@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <%- include layout.ejs %>       
+<!--     <script type="text/javascript">
+        ShopifyApp.ready(function(){
+        
+     });
+ </script> -->
+ <script type="text/javascript">
+     $('document').ready(function(){
+        socket_handler();
+        $('#industry_selector').change(function(){
+            if($('#industry_selector').val() != ""){
+                $('#industry_btn').attr("disabled",false); 
+            } else{
+                $('#industry_btn').attr("disabled",true); 
+            }
+        });
+    });
+
+</script>
+
+</head>
+
+<body style="text-align: center;">
+    <b><h1>WELCOME TO MAXPRO</h1></b>
+    <em>Tell us a little bit more about your business.</em>
+    <br><br>
+    <h4>What products are you selling?</h4>
+    <form action="/firstq" method="post">
+        <select id="industry_selector" name="industry">
+            <option value="">Please choose...</option><option value="health_and_beauty">Health and Beauty</option>
+            <option value="electronics_and_gadgets">Electronics and Gadgets</option>
+            <option value="pets">Pets</option>
+            <option value="books_and_magazines">Books and Magazines</option>
+            <option value="gifts_and_collectibles">Gifts and Collectibles</option>
+            <option value="home_and_furniture">Home and Furniture</option>
+            <option value="services">Services</option>
+            <option value="automotive">Automotive</option>
+            <option value="food_and_drink">Food and Drink</option>
+            <option value="sports_and_recreation">Sports and Recreation</option>
+            <option value="stationery_and_office_supplies">Stationery and Office Supplies</option>
+            <option value="fashion_and_apparel">Fashion and Apparel</option>
+            <option value="adult">Adult</option>
+            <option value="construction_and_industrial">Construction and Industrial</option>
+            <option value="toys_and_games">Toys and Games</option>
+            <option value="jewelry">Jewelry</option>
+            <option value="music">Music</option>
+            <option value="crafts_and_hobbies">Crafts and Hobbies</option>
+            <option value="art_and_photography">Art and Photography</option>
+        </select>
+        <button id="industry_btn" type="submit" disabled><span>SUBMIT</span></button>
+    </form>
+</body>
+</html>

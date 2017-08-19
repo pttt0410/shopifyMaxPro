@@ -9,16 +9,22 @@ MAXPRO - Maximize your profit not by competition but by cooporation
 ## Features
 * Easy set up and sign in throught Shopify, not need to have an private account.<br />
   ![alt tag](images/1.png)
+  <br /><br />
 * Seamless intergration of Maxpro with your store and your partners.<br />
   ![alt tag](images/2.png)
+  <br /><br />
 * Link your store with your partners to expand market.<br />
   ![alt tag](images/3.png)
+  <br /><br />
 * Increase your sales upon promoting your products better.<br />
   ![alt tag](images/4.png)
+  <br /><br />
 * Increased accessibility to customers<br />
   ![alt tag](images/5.png)
+  <br /><br />
 * Get more passive profit without effort<br />
   ![alt tag](images/6.png)
+  <br /><br />
 
 
 ## Project folder

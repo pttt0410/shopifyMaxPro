@@ -129,11 +129,8 @@ If you experience anything different, redo the steps and make sure you did them 
     cd <SavePath>/MaxPro-master/key/passphrase.js
     ```
 - Add your shopify key
-    ```
+```
     cd <SavePath>/MaxPro-master/config/token.js
-    ```
-
-    ```
     module.exports = {
     API_KEY: <Your_API_key>,
     API_SECRET: <Your_API_secret>

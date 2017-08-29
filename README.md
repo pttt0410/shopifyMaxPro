@@ -29,11 +29,11 @@ Maximize your profit not by competition but by cooporation
 ### Prerequisities
  - A working database connection MongoDB.
     - install mongodb-org
- ```sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6```
-``` echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list ```
-``` sudo apt-get update```
-``` sudo apt-get install -y mongodb-org ```
-``` sudo service mongod start```
+ ```sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo service mongod start```
 
     + Create a database name MaxPro, you can change it if you want but later on you will have to define it in code. 
  - Nodejs, npm, git.
@@ -116,12 +116,12 @@ If you experience anything different, redo the steps and make sure you did them 
 ## Deployment
 ### Certifications
 - Add your keyfile  
-    `cd <SavePath>/MaxPro-master/key/key.pem`
-    `cd <SavePath>/MaxPro-master/key/cert.pem`
+    ```cd <SavePath>/MaxPro-master/key/key.pem
+    cd <SavePath>/MaxPro-master/key/cert.pem```
 - Add your passphrase 
-    `cd <SavePath>/MaxPro-master/key/passphrase.js`
+    ```cd <SavePath>/MaxPro-master/key/passphrase.js```
 - Add your shopify key
-    `cd <SavePath>/MaxPro-master/config/token.js`
+    ```cd <SavePath>/MaxPro-master/config/token.js```
 
     ```module.exports = {
     API_KEY: <Your_API_key>,
